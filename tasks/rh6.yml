@@ -1,0 +1,41 @@
+- name: "Update the kernel"
+  yum: >
+    name=kernel
+    state=latest
+  register: kernel
+  tags:
+    - docker
+
+- name: "Restart machine"
+  shell: |
+    shutdown -r now "Ansible updates triggered"
+  async: 0
+  poll: 0
+  ignore_errors: true
+  when: kernel|changed
+  tags:
+    - docker
+
+- name: "Update the docker dependencies"
+  yum: >
+    name={{ item }}
+    state=latest
+  register: kernel
+  with_items:
+    - device-mapper
+  tags:
+    - docker
+
+- name: "Waiting for server to come back"
+  local_action: >
+    wait_for host={{ inventory_hostname }}
+    state=started
+  sudo: false
+  when: kernel|changed
+
+- name: "Install docker"
+  yum: >
+    name=docker-io
+    enablerepo=epel
+    state=present
+  notify: Restart Docker
