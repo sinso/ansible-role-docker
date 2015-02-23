@@ -3,8 +3,6 @@
     name=kernel
     state=latest
   register: kernel
-  tags:
-    - docker
 
 - name: "Restart machine"
   shell: |
@@ -13,18 +11,6 @@
   poll: 0
   ignore_errors: true
   when: kernel|changed
-  tags:
-    - docker
-
-- name: "Update the docker dependencies"
-  yum: >
-    name={{ item }}
-    state=latest
-  register: kernel
-  with_items:
-    - device-mapper
-  tags:
-    - docker
 
 - name: "Waiting for server to come back"
   local_action: >
@@ -32,6 +18,13 @@
     state=started
   sudo: false
   when: kernel|changed
+
+- name: "Update the docker dependencies"
+  yum: >
+    name={{ item }}
+    state=latest
+  with_items:
+    - device-mapper
 
 - name: "Install docker"
   yum: >
