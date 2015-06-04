@@ -10,3 +10,6 @@
     regexp='^other_args='
     dest=/etc/sysconfig/docker
     state=present
+
+- name: "Install docker-py"
+  yum: name=docker-python state=present
