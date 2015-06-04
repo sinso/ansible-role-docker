@@ -21,3 +21,7 @@ docker_listen_tcp: False
 docker_listen_port: 4243
 # docker_opts: '"-H tcp://{{ansible_eth1.ipv4.address}}:{{docker_listen_port}}"'
 ##### ---
+
+docker_http_proxy: ''
+docker_https_proxy: ''
+docker_no_proxy: ''

@@ -3,3 +3,29 @@
     name=docker
     state=present
   notify: Restart Docker
+
+- name: 'Set http_proxy'
+  lineinfile:
+    state: "{% if docker_http_proxy %}present{% else %}absent{% endif %}"
+    dest: /etc/sysconfig/docker
+    regexp: ^HTTP_PROXY
+    line: HTTP_PROXY={{ docker_http_proxy }}
+  notify: Restart Docker
+
+- name: 'Set https_proxy'
+  lineinfile:
+    state: "{% if docker_https_proxy %}present{% else %}absent{% endif %}"
+    dest: /etc/sysconfig/docker
+    regexp: ^HTTPS_PROXY
+    line: HTTPS_PROXY={{ docker_https_proxy }}
+  notify: Restart Docker
+
+- name: 'Set no_proxy'
+  lineinfile:
+    state: "{% if docker_no_proxy %}present{% else %}absent{% endif %}"
+    dest: /etc/sysconfig/docker
+    regexp: ^NO_PROXY
+    line: NO_PROXY={{ docker_no_proxy }}
+  notify: Restart Docker
+
+
