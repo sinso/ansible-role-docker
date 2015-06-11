@@ -10,3 +10,8 @@
     name=docker
     state=started
     enabled=yes
+
+- name: "Ensure logrotate is configured"
+  template:
+    src: logrotate.d/docker.j2
+    dest: /etc/logrotate.d/docker

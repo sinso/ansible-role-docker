@@ -1,0 +1,11 @@
+/var/lib/docker/containers/*/*.log {
+  rotate 60
+  daily
+  missingok
+  notifempty
+  compress
+  delaycompress
+  copytruncate
+  dateext
+  dateformat -%Y-%m-%d
+}
