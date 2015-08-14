@@ -28,4 +28,10 @@
     line: NO_PROXY={{ docker_no_proxy }}
   notify: Restart Docker
 
-
+- name: 'Set storage option'
+  lineinfile:
+    state: present
+    dest: /etc/sysconfig/docker-storage
+    regexp: ^DOCKER_STORAGE_OPTIONS
+    line: DOCKER_STORAGE_OPTIONS={{ docker_storage_options }}
+  notify: Restart Docker
